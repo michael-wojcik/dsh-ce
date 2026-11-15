@@ -1,6 +1,6 @@
 {
   "name": "dsh-ce",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compound Engineering for DeepSeek Harness: preset-scoped skills, a native reviewer, and session-native memory.",
   "license": "MIT",
   "type": "module",
