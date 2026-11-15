@@ -24,6 +24,7 @@ const keep = new Set([...incoming, adapter])
 if (!dryRun) {
   for (const name of incoming) {
     if (name === adapter) continue
+    rmSync(join(dest, name), { recursive: true, force: true })
     cpSync(join(source, name), join(dest, name), { recursive: true, force: true })
   }
   for (const name of readdirSync(dest)) {
@@ -34,10 +35,11 @@ if (!dryRun) {
 const files = []
 const walk = (dir, prefix) => {
   for (const name of readdirSync(dir)) {
+    if (name === '__pycache__') continue
     const full = join(dir, name)
     const rel = prefix ? prefix + '/' + name : name
     if (statSync(full).isDirectory()) walk(full, rel)
-    else if (!rel.startsWith(adapter + '/')) files.push(rel)
+    else if (!rel.startsWith(adapter + '/') && !name.endsWith('.pyc')) files.push(rel)
   }
 }
 walk(dest, '')

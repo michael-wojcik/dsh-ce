@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "sync": "node scripts/sync-upstream.mjs"
+    "sync": "node scripts/sync-upstream.mjs",
+    "prepack": "node scripts/clean-pycache.mjs"
   },
   "repository": {
     "type": "git",
