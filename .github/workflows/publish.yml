@@ -19,6 +19,16 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm test
-      - run: npm publish --provenance --access public
+      - name: Check whether this version is already on npm
+        id: check
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "dsh-ce@$version" version >/dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.check.outputs.published != 'true'
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
