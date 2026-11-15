@@ -1,0 +1,45 @@
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Sync to the latest Compound Engineering release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=$(gh release view --repo EveryInc/compound-engineering-plugin --json tagName -q .tagName)
+          echo "latest CE release: $tag"
+          rm -rf /tmp/ce
+          git clone --depth 1 --branch "$tag" https://github.com/EveryInc/compound-engineering-plugin /tmp/ce
+          sha=$(git -C /tmp/ce rev-parse HEAD)
+          echo "release commit: $sha"
+          current=$(node -p "require('./upstream.json').commit")
+          if [ "$sha" = "$current" ]; then
+            echo "already synced to $sha"
+            exit 0
+          fi
+          node scripts/sync-upstream.mjs --from /tmp/ce --commit "$sha"
+          npm test
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="sync/ce-$tag"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "chore: sync Compound Engineering $tag"
+          git push -u origin "$branch"
+          gh pr create --title "chore: sync Compound Engineering $tag"             --body "Automated sync to [`$tag`](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/$tag) at `$sha`. Adapter preserved, provenance regenerated, tests run."             --base main --head "$branch"
