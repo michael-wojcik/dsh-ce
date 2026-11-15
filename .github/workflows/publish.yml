@@ -3,6 +3,7 @@ name: Publish
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,16 +20,25 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm test
-      - name: Check whether this version is already on npm
+      - name: Check release state
         id: check
         run: |
           version=$(node -p "require('./package.json').version")
           if npm view "dsh-ce@$version" version >/dev/null 2>&1; then
-            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "state=published" >> "$GITHUB_OUTPUT"
+          elif npm stage list dsh-ce 2>/dev/null | grep -q "version: $version"; then
+            echo "state=staged" >> "$GITHUB_OUTPUT"
           else
-            echo "published=false" >> "$GITHUB_OUTPUT"
+            echo "state=new" >> "$GITHUB_OUTPUT"
           fi
-      - if: steps.check.outputs.published != 'true'
-        run: npm publish --provenance --access public
+      - name: Stage the release for maintainer approval
+        if: steps.check.outputs.state == 'new'
+        run: npm stage publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Report approval step
+        run: |
+          echo "Release state: ${{ steps.check.outputs.state }}"
+          if [ "${{ steps.check.outputs.state }}" = "new" ]; then
+            echo "::notice::Staged `dsh-ce@$(node -p "require('./package.json').version")`. A maintainer approves it with 2FA in npm Settings -> Staged Packages."
+          fi
