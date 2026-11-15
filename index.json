@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "title": "Compound Engineering for DeepSeek Harness",
+  "description": "Preset-scoped Compound Engineering skills, a native reviewer, and session-native memory for DSH.",
+  "metadata": {
+    "categories": {},
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-ce",
+      "title": "Compound Engineering",
+      "description": "Adds a Compound Engineering agent preset to DSH: the 38 CE skills scoped to that preset, a native ce_reviewer, and session-query memory bindings.",
+      "author": "Michael Wojcik",
+      "homepage": "https://github.com/michael-wojcik/dsh-ce#readme",
+      "repository": {
+        "url": "https://github.com/michael-wojcik/dsh-ce"
+      },
+      "metadata": {
+        "keywords": [
+          "deepseek-harness",
+          "dsh",
+          "compound-engineering",
+          "skills",
+          "agent"
+        ],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794757984,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/michael-wojcik/dsh-ce",
+            "commit": "9ad9e696307f0572673bb019537bfda7f3e626e2"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2"
+          }
+        }
+      ]
+    }
+  ]
+}
