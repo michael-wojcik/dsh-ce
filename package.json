@@ -1,0 +1,50 @@
+{
+  "name": "dsh-ce",
+  "version": "0.1.0",
+  "description": "Compound Engineering for DeepSeek Harness: preset-scoped skills, a native reviewer, and session-native memory.",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "skills",
+    "cordis.patch.yml",
+    "upstream.json",
+    "upstream.sha256",
+    "LICENSE",
+    "README.md"
+  ],
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.2.1-rc.2"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "sync": "node scripts/sync-upstream.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-wojcik/dsh-ce.git"
+  },
+  "homepage": "https://github.com/michael-wojcik/dsh-ce#readme",
+  "bugs": {
+    "url": "https://github.com/michael-wojcik/dsh-ce/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "compound-engineering",
+    "skills",
+    "agent"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

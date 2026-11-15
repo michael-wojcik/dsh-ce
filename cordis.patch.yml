@@ -1,0 +1,56 @@
+# dsh-ce bundle patch.
+# Compound Engineering preset: the core agent surface DSH needs (persona,
+# instructions, shell, files, search, jobs, schedule, skills, questions, todos)
+# plus the scoped CE skill provider and the native cross-model reviewer.
+- insert:
+    - id: preset-compound
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: compound
+        order: 9
+        name: Compound Engineering
+        description: brainstorm -> plan -> work -> review -> compound, DSH-native
+        plugins:
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: You are a coding agent powered by the {{model}} model.
+          - id: agent-instructions
+            name: '@deepseek-ai/dsh-agent-instructions'
+            config:
+              maxBytes: 65536
+          - id: time-context
+            name: '@deepseek-ai/dsh-time-context'
+          - id: tool-bash
+            name: '@deepseek-ai/dsh-tool-bash'
+          - id: tool-fs
+            name: '@deepseek-ai/dsh-tool-fs'
+          - id: tool-fs-search
+            name: '@deepseek-ai/dsh-tool-fs-search'
+            config:
+              sampleOverCapGlobResults: false
+          - id: tool-jobs
+            name: '@deepseek-ai/dsh-tool-jobs'
+          - id: tool-schedule
+            name: '@deepseek-ai/dsh-tool-schedule'
+          - id: skill-filesystem
+            name: '@deepseek-ai/dsh-skill-filesystem'
+          - id: tool-skill
+            name: '@deepseek-ai/dsh-tool-skill'
+          - id: tool-ask-user
+            name: '@deepseek-ai/dsh-tool-ask-user'
+          - id: tool-todo
+            name: '@deepseek-ai/dsh-tool-todo'
+            config:
+              allowParallelInProgress: true
+          - id: ce-skills
+            name: dsh-ce
+          - id: ce-reviewer
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: ce_reviewer
+              modelSelection: true
+              modelDiscovery: true
+          - id: ce-team-tools
+            name: '@deepseek-ai/dsh-tool-agent-team'
