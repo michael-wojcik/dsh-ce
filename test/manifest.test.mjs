@@ -1,12 +1,11 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 import test from 'node:test'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
-const yaml = (await import(pathToFileURL(join(homedir(), '.dsh/profiles/node_modules/js-yaml/index.js')).href)).default
+const yaml = (await import('js-yaml')).default
 
 test('bundle manifest declares the patch', () => {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))

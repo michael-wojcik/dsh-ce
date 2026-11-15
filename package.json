@@ -47,5 +47,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.3.2"
   }
 }
