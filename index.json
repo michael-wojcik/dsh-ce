@@ -31,11 +31,11 @@
       "versions": [
         {
           "version": "0.1.0",
-          "publishTimestamp": 1794757984,
+          "publishTimestamp": 1794758074,
           "source": {
             "type": "git",
             "url": "https://github.com/michael-wojcik/dsh-ce",
-            "commit": "9ad9e696307f0572673bb019537bfda7f3e626e2"
+            "commit": "9eb1206f6975687baa80387a79e7788bbab3b304"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.2"
