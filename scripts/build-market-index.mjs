@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Generate index.json in the DSH plugin market format 1.
-// Usage: node scripts/build-market-index.mjs --commit <40-hex sha>
+// Usage: node scripts/build-market-index.mjs [--source npm|git] [--commit <40-hex sha>]
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const args = process.argv.slice(2)
@@ -9,12 +9,16 @@ const opt = (name) => {
   return i >= 0 ? args[i + 1] : undefined
 }
 const commit = opt('--commit')
-if (!/^[0-9a-f]{40}$/.test(commit ?? '')) {
-  console.error('usage: build-market-index.mjs --commit <40-hex sha>')
+const sourceType = opt('--source') ?? 'npm'
+if (sourceType === 'git' && !/^[0-9a-f]{40}$/.test(commit ?? '')) {
+  console.error('usage: build-market-index.mjs [--source npm|git] [--commit <40-hex sha>]')
   process.exit(2)
 }
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
+const source = sourceType === 'npm'
+  ? { type: 'npm' }
+  : { type: 'git', url: 'https://github.com/michael-wojcik/dsh-ce', commit }
 const index = {
   format: 1,
   title: 'Compound Engineering for DeepSeek Harness',
@@ -33,7 +37,7 @@ const index = {
         {
           version: pkg.version,
           publishTimestamp: Math.floor(Date.now() / 1000),
-          source: { type: 'git', url: 'https://github.com/michael-wojcik/dsh-ce', commit },
+          source,
           engines: { dsh: pkg.engines.dsh },
         },
       ],
@@ -42,4 +46,4 @@ const index = {
 }
 
 writeFileSync(new URL('../index.json', import.meta.url), JSON.stringify(index, null, 2) + '\n')
-console.log('wrote index.json for ' + pkg.name + '@' + pkg.version + ' at ' + commit)
+console.log('wrote index.json for ' + pkg.name + '@' + pkg.version + ' from ' + sourceType)

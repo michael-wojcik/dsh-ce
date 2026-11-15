@@ -30,12 +30,10 @@
       },
       "versions": [
         {
-          "version": "0.1.0",
-          "publishTimestamp": 1794758074,
+          "version": "0.1.1",
+          "publishTimestamp": 1794760816,
           "source": {
-            "type": "git",
-            "url": "https://github.com/michael-wojcik/dsh-ce",
-            "commit": "9eb1206f6975687baa80387a79e7788bbab3b304"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.2"
