@@ -16,6 +16,12 @@ DSH_HOME=/tmp/dsh-home node /tmp/dsh-asar/out/dsh/node_modules/@deepseek-ai/dsh/
 
 Without the registry row the preset reports `pending (waiting for service: agentPresets)`; with `@deepseek-ai/dsh-agent-preset-registry` mounted, `preset-compound` activates with no warning. That distinguishes "broken composition" from "the running Host has not reloaded".
 
+## Preset maintenance
+
+A preset's `config.plugins` list is a **full replacement** for the host plane, not an addition to it. DSH's web bundle disables host-plane rows for capabilities that must run per Agent — today that includes compaction, delegation, and tool-result pruning — and every preset must mount its own copy.
+
+When DSH moves a host-plane capability into presets, mirror it here. Compaction is the cautionary case: `0.1.2` mounted no `compaction` group, so compound sessions silently had no automatic pressure condensation, no context-overflow recovery, and no `/compact`. The regression test in `test/manifest.test.mjs` asserts the group's shape; extend that pattern whenever a new per-Agent capability moves out of the host plane.
+
 ## Why this exists
 
 CE is MIT, skills-only, and ships to fourteen hosts. Forking its prose is a maintenance tax paid per upstream release (the reference fork measured 11 conflicts, 2 new skills and 38 new dispatch sites after five weeks). This package keeps the content upstream and owns only the integration surface DSH provides:
