@@ -41,7 +41,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           branch="sync/ce-latest"
           title="chore: sync Compound Engineering $tag"
-          body="Automated sync to [$tag](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/$tag) at $sha. Adapter preserved, provenance regenerated. Validation: `npm test` and `npm pack --dry-run` passed before this branch was pushed."
+          body="Automated sync to [$tag](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/$tag) at $sha. Adapter preserved, provenance regenerated. Validation: npm test and npm pack --dry-run passed before this branch was pushed."
           git checkout -B "$branch"
           git add -A
           git commit -m "$title"
