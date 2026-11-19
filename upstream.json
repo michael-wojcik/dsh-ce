@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/EveryInc/compound-engineering-plugin",
-  "commit": "ee46dde75a40e297bd8eac4055a410a771d3ac1d",
-  "commitDate": "2026-11-15",
+  "commit": "8f7614639e7f3792a6f9337d8742a80a232bd596",
+  "commitDate": "2026-11-19",
   "skills": 38,
   "policy": "skills copied unmodified; only ce-dsh-host is ours",
   "adapter": "dsh/skills/ce-dsh-host (fork), made standalone"
