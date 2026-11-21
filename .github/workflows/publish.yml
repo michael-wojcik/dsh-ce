@@ -41,5 +41,5 @@ jobs:
         run: |
           echo "Release state: ${{ steps.check.outputs.state }}"
           if [ "${{ steps.check.outputs.state }}" = "new" ]; then
-            echo "::notice::Staged `dsh-ce@$(node -p "require('./package.json').version")`. A maintainer approves it with 2FA in npm Settings -> Staged Packages."
+            echo "::notice::Staged dsh-ce@$(node -p 'require(\"./package.json\").version'). A maintainer approves it with 2FA in npm Settings -> Staged Packages."
           fi
